@@ -1,4 +1,4 @@
-name: Create PR on Push to Master
+name: Auto Create Pull Request
 
 on:
   push:
@@ -8,14 +8,17 @@ on:
 jobs:
   create_pull_request:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        
+
       - name: Create Pull Request
+        id: open-pr
         uses: repo-sync/pull-request@v2
         with:
           destination_branch: "main"
           pr_title: "Automatic PR from Master"
           pr_body: "This PR was automatically created from the 'master' branch."
+          pr_reviewer: "paigen11"
+          pr_draft: false
