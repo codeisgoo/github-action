@@ -2,20 +2,23 @@ name: Build and Run Docker Image
 on:
   push:
     branches:
-      - main  
+      - main
 
 jobs:
   build-and-run:
-    runs-on: ubuntu-latest  
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Docker
-        uses: docker/setup-docker@v2
-        with:
-          dockerfile: Dockerfile  
+      - name: Install Docker
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker.io
+          sudo usermod -aG docker $USER
+          sudo systemctl start docker
+          sudo systemctl enable docker
 
       - name: Build Docker image
         run: docker build -t my-app .
