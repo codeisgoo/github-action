@@ -1,0 +1,32 @@
+name: Create PR on Push to Master
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  create_pull_request:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: extract git commit code
+        uses: rlespinasse/git-commit-data-action@v1.x
+     
+      - name: Update
+        uses: echo $ {{ env.GIT_COMMIT_AUTHOR_NAME }} > AUTHOR
+
+      - name: Raise PR
+        uses: peter-evans/create-pull-request@v3 
+        with:
+          branch: "main"
+          base: main
+          title: "auto PR"
+          commiter: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}   
+          author: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHO>
+          body:
+            This is to show automatic pr creation
+          token: ${{ secrets.GITHUB_TOKEN }}
